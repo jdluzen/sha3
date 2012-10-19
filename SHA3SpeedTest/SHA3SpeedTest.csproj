@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D089567A-A23D-4DCA-B250-0528CFCC17B5}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{46528962-48CA-4A23-975D-E63FA434176A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SHA3</RootNamespace>
-    <AssemblyName>SHA3</AssemblyName>
+    <RootNamespace>SHA3SpeedTest</RootNamespace>
+    <AssemblyName>SHA3SpeedTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,16 +23,15 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,9 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\AssemblyInfoCommon.cs" />
-    <Compile Include="SHA3.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SHA3Managed\SHA3Managed.csproj">
+      <Project>{2B3E874E-B175-4036-BC9C-208C67403EC3}</Project>
+      <Name>SHA3Managed</Name>
+      <Aliases>SHA3Managed</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\SHA3Portable\SHA3Portable.csproj">
+      <Project>{5001A39D-6E1F-4A07-A849-CE7377ED67F2}</Project>
+      <Name>SHA3Portable</Name>
+      <Aliases>SHA3Portable</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\SHA3\SHA3.csproj">
+      <Project>{D089567A-A23D-4DCA-B250-0528CFCC17B5}</Project>
+      <Name>SHA3</Name>
+      <Aliases>SHA3</Aliases>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -33,15 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\SHA3Managed\SHA3Managed.cs">
       <Link>SHA3Managed.cs</Link>
     </Compile>
     <Compile Include="..\SHA3\Properties\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="..\SHA3\SHA3.cs">
+      <Link>SHA3.cs</Link>
+    </Compile>
+    <Compile Include="IHashAlgorithm.cs" />
+    <Compile Include="SHA3ManagedExtended.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

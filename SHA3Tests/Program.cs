@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using PetaTest;
 
@@ -41,22 +42,54 @@ namespace SHA3Tests
             }
         }
 
-        IEnumerable<Func<byte[], int, byte[]>> GetImplementations(int hashLen)
+        //System.Security.Cryptography.HashAlgorithm[] algos = new System.Security.Cryptography.HashAlgorithm[] { new SHA3Managed.SHA3.SHA3Managed(224) };
+        //object[] algos = new object[] {  };
+
+        /*IEnumerable<KeyValuePair<Func<byte[], int, int, byte[], int, int>, Func<byte[], int, int, byte[]>>> GetTransformBlocks(int hashLen)
         {
-            return new Func<byte[], int, byte[]>[] { new SHA3::SHA3.SHA3(hashLen).Hash, new SHA3Managed::SHA3Managed.SHA3Managed(hashLen).Hash, new SHA3Portable::SHA3Managed.SHA3Managed(hashLen).Hash };
+            yield return new KeyValuePair<Func<byte[], int, int, byte[], int, int>, Func<byte[], int, int, byte[]>>(algos[0].TransformBlock, algos[0].TransformFinalBlock);
+            //return new Func<byte[], int, int, byte[]>[] { new SHA3::SHA3.SHA3Service(hashLen).Hash, new SHA3Managed::SHA3Managed.SHA3ManagedService(hashLen).Hash, new SHA3Portable::SHA3Managed.SHA3ManagedService(hashLen).Hash };
+        }*/
+
+        IEnumerable<object> GetImplementations(int hashLen)
+        {
+            yield return new SHA3::SHA3.SHA3Unmanaged(hashLen);
+            yield return new SHA3Managed::SHA3.SHA3Managed(hashLen);
+            yield return new SHA3Portable::SHA3.SHA3Managed(hashLen);
         }
 
         void RunTest(bool isShort, int hashLen)
         {
             string[] lines = GetLines(isShort, hashLen);
             foreach (Tuple<int, byte[], string> tup in GetDataAndHash(lines))
-                foreach (Func<byte[], int, byte[]> func in GetImplementations(hashLen))
+            {
+                foreach (object impl in GetImplementations(hashLen))
                 {
-                    string hash = BitConverter.ToString(func(tup.Item2, tup.Item1)).Replace("-", string.Empty);
-                    if (hash != tup.Item3)
+                    if (tup.Item1 > 0)
+                        for (int i = 0; i < tup.Item2.Length; i++)//really stress the internal buffer
+                        {
+                            if (impl is HashAlgorithm)
+                                (impl as HashAlgorithm).TransformBlock(tup.Item2, i, 1, tup.Item2, i);
+                            else if (impl is SHA3Portable::SHA3.IHashAlgorithm)
+                                (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformBlock(tup.Item2, i, 1, tup.Item2, i);
+                        }
+                    byte[] hash = null;
+                    if (impl is HashAlgorithm)
+                    {
+                        byte[] temp = (impl as HashAlgorithm).TransformFinalBlock(tup.Item2, 0, 0);
+                        hash = (impl as HashAlgorithm).Hash;
+                    }
+                    else if (impl is SHA3Portable::SHA3.IHashAlgorithm)
+                    {
+                        (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformFinalBlock(tup.Item2, 0, 0);
+                        hash = (impl as SHA3Portable::SHA3.SHA3Managed).Hash;
+                    }
+                    string shash = BitConverter.ToString(hash).Replace("-", string.Empty);
+                    if (shash != tup.Item3)
                         throw new Exception("Hash mismatch");
                     Console.WriteLine(tup.Item3);
                 }
+            }
         }
 
         [Test]

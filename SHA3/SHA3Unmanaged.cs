@@ -5,18 +5,26 @@ using System.Text;
 
 namespace SHA3
 {
-    public partial class SHA3Managed : SHA3
+    public class SHA3Unmanaged : SHA3
     {
-        public SHA3Managed(int hashBitLength)
+        public SHA3Unmanaged(int hashBitLength)
             : base(hashBitLength)
         {
         }
 
-        protected
-#if !PORTABLE
-        override
-#endif
-        void HashCore(byte[] array, int ibStart, int cbSize)
+        unsafe void memcpy(byte* dst, byte* src, int len)
+        {
+            for (int i = 0; i < len; i++)
+                dst[i] = src[i];//FIXME: make faster with longs
+        }
+
+        unsafe void memset(byte* p, byte value, int len)
+        {
+            for (int i = 0; i < len; i++)
+                p[i] = value;//FIXME: make faster with longs
+        }
+
+        protected unsafe override void HashCore(byte[] array, int ibStart, int cbSize)
         {
             base.HashCore(array, ibStart, cbSize);
             if (cbSize == 0)
@@ -25,30 +33,30 @@ namespace SHA3
             if (buffer == null)
                 buffer = new byte[sizeInBytes];
             int stride = sizeInBytes >> 3;
-            ulong[] utemps = new ulong[stride];
             if (buffLength == sizeInBytes)
                 throw new Exception("Unexpected error, the internal buffer is full");
             AddToBuffer(array, ref ibStart, ref cbSize);
             if (buffLength == sizeInBytes)//buffer full
             {
-                Buffer.BlockCopy(buffer, 0, utemps, 0, sizeInBytes);
-                KeccakF(utemps, stride);
+                fixed (byte* ptr = &buffer[0])
+                    KeccakF((ulong*)ptr, stride);
                 buffLength = 0;
             }
-            for (; cbSize >= sizeInBytes; cbSize -= sizeInBytes, ibStart += sizeInBytes)
-            {
-                Buffer.BlockCopy(array, ibStart, utemps, 0, sizeInBytes);
-                KeccakF(utemps, stride);
-            }
+            if (cbSize > 0)
+                fixed (byte* ptr = &array[ibStart])
+                {
+                    ulong* movable = (ulong*)ptr;
+                    for (; cbSize >= sizeInBytes; cbSize -= sizeInBytes, ibStart += sizeInBytes)
+                    {
+                        KeccakF((ulong*)movable, stride);
+                        movable += stride;
+                    }
+                }
             if (cbSize > 0)//some left over
                 Buffer.BlockCopy(array, ibStart, buffer, buffLength, cbSize);
         }
 
-        protected
-#if !PORTABLE
-        override
-#endif
-        byte[] HashFinal()
+        protected unsafe override byte[] HashFinal()
         {
             int sizeInBytes = SizeInBytes;
             byte[] outb = new byte[HashByteLength];
@@ -59,15 +67,13 @@ namespace SHA3
                 Array.Clear(buffer, buffLength, sizeInBytes - buffLength);
             buffer[buffLength++] = 1;
             buffer[sizeInBytes - 1] |= 0x80;
-            int stride = sizeInBytes >> 3;
-            ulong[] utemps = new ulong[stride];
-            Buffer.BlockCopy(buffer, 0, utemps, 0, sizeInBytes);
-            KeccakF(utemps, stride);
+            fixed (byte* ptr = &buffer[0])
+                KeccakF((ulong*)ptr, sizeInBytes >> 3);
             Buffer.BlockCopy(state, 0, outb, 0, HashByteLength);
             return outb;
         }
 
-        private void KeccakF(ulong[] inb, int laneCount)
+        private unsafe void KeccakF(ulong* inb, int laneCount)
         {
             while (--laneCount >= 0)
                 state[laneCount] ^= inb[laneCount];

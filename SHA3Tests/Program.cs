@@ -65,26 +65,43 @@ namespace SHA3Tests
             {
                 foreach (object impl in GetImplementations(hashLen))
                 {
-                    if (tup.Item1 > 0)
-                        for (int i = 0; i < tup.Item2.Length; i++)//really stress the internal buffer
-                        {
-                            if (impl is HashAlgorithm)
-                                (impl as HashAlgorithm).TransformBlock(tup.Item2, i, 1, tup.Item2, i);
-                            else if (impl is SHA3Portable::SHA3.IHashAlgorithm)
-                                (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformBlock(tup.Item2, i, 1, tup.Item2, i);
-                        }
-                    byte[] hash = null;
+                    Func<byte[], int, int, byte[], int, int> transformBlock = null;
+                    Func<byte[], int, int, byte[]> transformFinalBlock = null;
+                    Action init = null;
                     if (impl is HashAlgorithm)
                     {
-                        byte[] temp = (impl as HashAlgorithm).TransformFinalBlock(tup.Item2, 0, 0);
-                        hash = (impl as HashAlgorithm).Hash;
+                        transformBlock = (impl as HashAlgorithm).TransformBlock;
+                        transformFinalBlock = (array, offset, count) =>
+                            {
+                                (impl as HashAlgorithm).TransformFinalBlock(array, offset, count);
+                                return (impl as HashAlgorithm).Hash;
+                            };
+                        init = (impl as HashAlgorithm).Initialize;
                     }
                     else if (impl is SHA3Portable::SHA3.IHashAlgorithm)
                     {
-                        (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformFinalBlock(tup.Item2, 0, 0);
-                        hash = (impl as SHA3Portable::SHA3.SHA3Managed).Hash;
+                        transformBlock = (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformBlock;
+                        transformFinalBlock = (array, offset, count) =>
+                            {
+                                (impl as SHA3Portable::SHA3.IHashAlgorithm).TransformFinalBlock(array, offset, count);
+                                return (impl as SHA3Portable::SHA3.IHashAlgorithm).Hash;
+                            };
+                        init = (impl as SHA3Portable::SHA3.IHashAlgorithm).Initialize;
                     }
+                    if (tup.Item1 > 0)
+                        for (int i = 0; i < tup.Item2.Length; i++)//really stress the internal buffer
+                            transformBlock(tup.Item2, i, 1, tup.Item2, i);
+                    byte[] hash = transformFinalBlock(tup.Item2, 0, 0);
                     string shash = BitConverter.ToString(hash).Replace("-", string.Empty);
+                    if (shash != tup.Item3)
+                        throw new Exception("Hash mismatch");
+                    Console.WriteLine(tup.Item3);
+
+                    init();
+                    if (tup.Item1 > 0)
+                        transformBlock(tup.Item2, 0, tup.Item1, tup.Item2, 0);
+                    hash = transformFinalBlock(tup.Item2, 0, 0);
+                    shash = BitConverter.ToString(hash).Replace("-", string.Empty);
                     if (shash != tup.Item3)
                         throw new Exception("Hash mismatch");
                     Console.WriteLine(tup.Item3);

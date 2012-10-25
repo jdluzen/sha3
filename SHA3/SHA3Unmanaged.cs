@@ -53,7 +53,10 @@ namespace SHA3
                     }
                 }
             if (cbSize > 0)//some left over
+            {
                 Buffer.BlockCopy(array, ibStart, buffer, buffLength, cbSize);
+                buffLength += cbSize;
+            }
         }
 
         protected unsafe override byte[] HashFinal()

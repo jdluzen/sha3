@@ -2,3 +2,4 @@ syntax: glob
 Debug/*
 *.suo
 Release/*
+*.nupkg

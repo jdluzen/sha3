@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>SHA3</id>
+        <version>0.9.2</version>
+        <title>SHA3</title>
+        <authors>Joe Dluzen,Bertoni,Daemen,Peeters,Van Assche</authors>
+        <owners>Joe Dluzen</owners>
+        <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+        <projectUrl>https://bitbucket.org/jdluzen/sha3</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>C# port of Keccak, known as SHA3. Includes .NET4 unsafe, .NET4 safe, and PCL libraries.</description>
+        <summary>Modified BSD License</summary>
+        <copyright>(C# port) Copyright © Joe Dluzen 2012. Keccak in C originally in the public domain by Bertoni, Daemen, Peeters, and Van Assche</copyright>
+        <language>en-US</language>
+        <tags>sha3 keccak</tags>
+    </metadata>
+    <files>
+        <file src="Release\SHA3.dll" target="lib\net40\SHA3.dll" />
+        <file src="Release\SHA3.dll.mdb" target="lib\net40\SHA3.dll.mdb" />
+        <file src="Release\SHA3.pdb" target="lib\net40\SHA3.pdb" />
+        <file src="Release\SHA3Managed.dll" target="lib\net40\SHA3Managed.dll" />
+        <file src="Release\SHA3Managed.dll.mdb" target="lib\net40\SHA3Managed.dll.mdb" />
+        <file src="Release\SHA3Managed.pdb" target="lib\net40\SHA3Managed.pdb" />
+        <file src="Release\SHA3Portable.dll" target="lib\portable-net4+sl4+wp7+win8\SHA3Portable.dll" />
+        <file src="Release\SHA3Portable.dll.mdb" target="lib\portable-net4+sl4+wp7+win8\SHA3Portable.dll.mdb" />
+        <file src="Release\SHA3Portable.pdb" target="lib\portable-net4+sl4+wp7+win8\SHA3Portable.pdb" />
+    </files>
+</package>

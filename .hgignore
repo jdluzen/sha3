@@ -3,3 +3,5 @@ Debug/*
 *.suo
 Release/*
 *.nupkg
+*.userprefs
+binaries/*.txt

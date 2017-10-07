@@ -18,8 +18,9 @@ namespace SHA3SpeedTest
             for (int i = -1; i < 10; i++)
             {
                 int index = 0;
-                foreach (object impl in new object[] { new SHA3::SHA3.SHA3Unmanaged(256), new SHA3Managed::SHA3.SHA3Managed(256), new SHA3Portable::SHA3.SHA3Managed(256) })
+                foreach (object impl in new object[] { new SHA3::SHA3.SHA3Unmanaged(256), new SHA3Managed::SHA3.SHA3Managed(256), new SHA3Portable::SHA3.SHA3Managed(256), new SHA256Managed() })
                 {
+                    new SHA3.SHA3.SHA3Unmanaged(256).ComputeHash(UTF8Encoding.UTF8.GetBytes("Hello"));
                     rand.NextBytes(data);
                     //SHA256 s2 = SHA256.Create();
                     Func<byte[], int, int, byte[], int, int> transformBlock = null;
@@ -49,6 +50,9 @@ namespace SHA3SpeedTest
                             break;
                         case 2:
                             Console.ForegroundColor = ConsoleColor.Blue;
+                            break;
+                        case 3:
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             break;
 
                     }

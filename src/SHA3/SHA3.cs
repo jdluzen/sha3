@@ -9,22 +9,14 @@ namespace DZen.Security.Cryptography
     public abstract class SHA3 : HashAlgorithm
     {
         #region Statics
-        public static
-#if NETSTANDARD2_0
-        new
-#endif
-        SHA3 Create()
+        public static SHA3 Create()
         {
             return Create("SHA3-256");
         }
 
         public bool UseKeccakPadding { get; set; }
 
-        public static
-#if NETSTANDARD2_0
-        new
-#endif
-        SHA3 Create(string hashName)
+        public static SHA3 Create(string hashName)
         {
             switch (hashName.ToLower())
             {

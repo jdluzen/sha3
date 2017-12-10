@@ -3,6 +3,7 @@
     <metadata>
         <id>SHA3</id>
         <version>1.0.0-rc</version>
+        <title>SHA3</title>
         <authors>Joe Dluzen</authors>
         <owners>Joe Dluzen</owners>
         <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>

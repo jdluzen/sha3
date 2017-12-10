@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
+    <Version>1.0.0-rc</Version>
+    <FileVersion>1.0.0</FileVersion>
+    <Product>SHA3</Product>
+    <Company>DZen</Company>
+  </PropertyGroup>
+
+</Project>

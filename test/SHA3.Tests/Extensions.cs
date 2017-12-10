@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SHA3Tests
+namespace DZen.Security.Cryptography.Tests
 {
     public static class Extensions
     {

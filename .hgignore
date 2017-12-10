@@ -5,3 +5,6 @@ Release/*
 *.nupkg
 *.userprefs
 binaries/*.txt
+test/SHA3.Tests/obj/*
+test/SHA3.SpeedTest/obj/*
+src/SHA3/obj/*

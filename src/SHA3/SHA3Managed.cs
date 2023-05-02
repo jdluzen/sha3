@@ -1,34 +1,15 @@
 using System;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace DZen.Security.Cryptography
 {
     public abstract class SHA3Managed : SHA3
     {
-        internal int KeccakR { get; set; }
+        private int keccakR;
         private int hashSize;
-        public override int HashSize
-        {
-            get
-            {
-                return hashSize;
-            }
-        }
-        protected int SizeInBytes
-        {
-            get
-            {
-                return KeccakR / 8;
-            }
-        }
-        protected int HashByteLength
-        {
-            get
-            {
-                return HashSize / 8;
-            }
-        }
+        public override int HashSize => hashSize;
+        protected int SizeInBytes => keccakR / 8;
+        protected int HashByteLength => HashSize / 8;
         private const int KeccakB = 1600;
         private const int KeccakNumberOfRounds = 24;
         private const int KeccakLaneSizeInBits = 8 * 8;
@@ -70,16 +51,16 @@ namespace DZen.Security.Cryptography
             switch (hashBitLength)
             {
                 case 224:
-                    KeccakR = 1152;
+                    keccakR = 1152;
                     break;
                 case 256:
-                    KeccakR = 1088;
+                    keccakR = 1088;
                     break;
                 case 384:
-                    KeccakR = 832;
+                    keccakR = 832;
                     break;
                 case 512:
-                    KeccakR = 576;
+                    keccakR = 576;
                     break;
             }
             Initialize();
@@ -92,10 +73,10 @@ namespace DZen.Security.Cryptography
             state = new ulong[5 * 5];//1600 bits
         }
 
-        private void AddToBuffer(byte[] array, ref int offset, ref int count)
+        private void AddToBuffer(ReadOnlySpan<byte> array, ref int offset, ref int count)
         {
             int amount = Math.Min(count, buffer.Length - buffLength);
-            Buffer.BlockCopy(array, offset, buffer, buffLength, amount);
+            array.Slice(offset, amount).CopyTo(new Span<byte>(buffer, buffLength, amount));
             offset += amount;
             buffLength += amount;
             count -= amount;
@@ -148,13 +129,12 @@ namespace DZen.Security.Cryptography
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ulong ROL(ulong a, int offset)
-        {
-            return (((a) << ((offset) % KeccakLaneSizeInBits)) ^ ((a) >> (KeccakLaneSizeInBits - ((offset) % KeccakLaneSizeInBits))));
-        }
+        private ulong ROL(ulong a, int offset) => ((a) << (offset % KeccakLaneSizeInBits)) ^ ((a) >> (KeccakLaneSizeInBits - (offset % KeccakLaneSizeInBits)));
 
-        private void KeccakF(ulong[] inb, int laneCount)
+        private void KeccakF(Span<ulong> inb, int laneCount)
         {
+            Span<ulong> state = this.state;
+            ReadOnlySpan<ulong> RoundConstants = SHA3Managed.RoundConstants;
             while (--laneCount >= 0)
                 state[laneCount] ^= inb[laneCount];
             ulong Aba, Abe, Abi, Abo, Abu;
@@ -169,7 +149,6 @@ namespace DZen.Security.Cryptography
             ulong Eka, Eke, Eki, Eko, Eku;
             ulong Ema, Eme, Emi, Emo, Emu;
             ulong Esa, Ese, Esi, Eso, Esu;
-            int round = laneCount;
 
             //copyFromState(A, state)
             Aba = state[0];
@@ -198,7 +177,7 @@ namespace DZen.Security.Cryptography
             Aso = state[23];
             Asu = state[24];
 
-            for (round = 0; round < KeccakNumberOfRounds; round += 2)
+            for (int round = 0; round < KeccakNumberOfRounds; round += 2)
             {
                 //    prepareTheta
                 BCa = Aba ^ Aga ^ Aka ^ Ama ^ Asa;

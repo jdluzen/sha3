@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace DZen.Security.Cryptography
 {
@@ -18,19 +15,20 @@ namespace DZen.Security.Cryptography
 
         public static SHA3 Create(string hashName)
         {
-            switch (hashName.ToLower())
+            switch (hashName.ToLower().Replace("-", string.Empty))
             {
-                case "sha3-224":
                 case "sha3224":
+                case "sha3224managed":
                     return new SHA3224Managed();
-                case "sha3-256":
+                case "sha3":
                 case "sha3256":
+                case "sha3256managed":
                     return new SHA3256Managed();
-                case "sha3-384":
                 case "sha3384":
+                case "sha3384managed":
                     return new SHA3384Managed();
-                case "sha3-512":
                 case "sha3512":
+                case "sha3512managed":
                     return new SHA3512Managed();
                 default:
                     return null;

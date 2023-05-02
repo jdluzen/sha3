@@ -32,7 +32,7 @@ namespace DZen.Security.Cryptography.Tests
                             i += 2;
                         }
                     break;
-#if NETCOREAPP2_0
+#if NETCOREAPP2_0_OR_GREATER
                 case TestType.ExtremelyLong:
                     for (int i = 0; i < lines.Length; i++)
                         if (!lines[i].StartsWith("#") && lines[i] != string.Empty)
@@ -56,17 +56,25 @@ namespace DZen.Security.Cryptography.Tests
                 if (tup.Item1 > 0)//only on whole byte ranges
                 {
                     byte[] hash;
-#if NETCOREAPP1_1
-                    hash = sha3.ComputeHash(tup.Item2);
-#else
-                        for (int r = 0; r < repeats; r++)
+                    string shash;
+#if NETCOREAPP1_1_OR_GREATER
+                    if (repeats == 1)
+                    {
+                        hash = sha3.ComputeHash(tup.Item2);
+                        shash = Convert.ToHexString(hash);
+
+                        Assert.Equal(tup.Item3, shash);
+                    }
+#endif
+                    for (int r = 0; r < repeats; r++)
                         {
                             sha3.TransformBlock(tup.Item2, 0, tup.Item2.Length, tup.Item2, 0);
                         }
                         sha3.TransformFinalBlock(tup.Item2, 0, 0);
                         hash = sha3.Hash;
-#endif
-                    string shash = BitConverter.ToString(hash).Replace("-", string.Empty);
+
+                    shash = Convert.ToHexString(hash);
+
                     Assert.Equal(tup.Item3, shash);
                 }
             }

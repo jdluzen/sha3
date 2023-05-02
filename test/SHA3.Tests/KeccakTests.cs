@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using Xunit;
-using DZen.Security.Cryptography;
+﻿using Xunit;
 
 namespace DZen.Security.Cryptography.Tests
 {
@@ -68,7 +60,7 @@ namespace DZen.Security.Cryptography.Tests
             RunTest(TestType.Long, 512, true);
         }
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_0_OR_GREATER
         [Fact]
         public void ExtremelyLong_224()
         {

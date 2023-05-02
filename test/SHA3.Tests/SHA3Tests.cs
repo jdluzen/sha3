@@ -27,5 +27,25 @@ namespace DZen.Security.Cryptography.Tests
         {
             RunTest(TestType.Short, 512, false);
         }
+
+        [Fact]
+        public void CreateNamed()
+        {
+            foreach(string name in new string[]
+            {
+                "sha3",
+                "sha3224managed",
+                "sha3256managed",
+                "sha3384managed",
+                "sha3512managed",
+                "sha3224",
+                "sha3256",
+                "sha3384",
+                "sha3512",
+            })
+            {
+                Assert.NotNull(SHA3.Create(name));
+            }
+        }
     }
 }

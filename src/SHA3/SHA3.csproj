@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;netstandard2.1</TargetFrameworks>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Product>SHA3</Product>
+    <PackageId>SHA3</PackageId>
+    <Company>DZen</Company>
+    <Description>SHA3 and Keccak hashing integrated with System.Security.Cryptography.HashAlgorithm. Padding defaults to SHA3, but also supports Keccak.</Description>
+    <PackageProjectUrl>https://github.com/jdluzen/sha3</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jdluzen/sha3</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>jdluzen</Authors>
+    <PackageTags>sha3 keccak</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard1.3'" Include="System.Memory" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

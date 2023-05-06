@@ -1,0 +1,7 @@
+﻿/.vs
+/src/SHA3/bin
+/src/SHA3/obj
+/test/SHA3.SpeedTest/bin
+/test/SHA3.SpeedTest/obj
+/test/SHA3.Tests/bin
+/test/SHA3.Tests/obj

@@ -13,9 +13,11 @@
     <RepositoryUrl>https://github.com/jdluzen/sha3</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Authors>jdluzen</Authors>
-    <PackageTags>sha3 keccak</PackageTags>
+    <PackageTags>sha3 keccak hashing hashalgorithm</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Copyright>(C# port) Copyright © Joe Dluzen 2012, 2017, 2023. Keccak in C originally in the public domain by Bertoni, Daemen, Peeters, and Van Assche</Copyright>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
@@ -26,6 +28,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Condition="'$(TargetFramework)' == 'netstandard1.3'" Include="System.Memory" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

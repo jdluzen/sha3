@@ -4,8 +4,17 @@
     <TargetFrameworks>netstandard1.3;netstandard2.1</TargetFrameworks>
     <Version>1.0.0</Version>
     <FileVersion>1.0.0</FileVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <Product>SHA3</Product>
+    <PackageId>SHA3</PackageId>
     <Company>DZen</Company>
+    <Description>SHA3 and Keccak hashing integrated with System.Security.Cryptography.HashAlgorithm. Padding defaults to SHA3, but also supports Keccak.</Description>
+    <PackageProjectUrl>https://github.com/jdluzen/sha3</PackageProjectUrl>
+    <Authors>jdluzen</Authors>
+    <PackageTags>sha3 keccak</PackageTags>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

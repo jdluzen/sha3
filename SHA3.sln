@@ -1,17 +1,21 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33626.354
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F78434C3-97E0-4B83-B332-3D1122CE6194}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHA3", "src\SHA3\SHA3.csproj", "{0236FC14-030E-4F18-A88F-BB5742AA58B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHA3", "src\SHA3\SHA3.csproj", "{0236FC14-030E-4F18-A88F-BB5742AA58B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{156033A1-DCED-4B85-9595-077940F98C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHA3.Tests", "test\SHA3.Tests\SHA3.Tests.csproj", "{E4AEF193-DDE5-4FB4-A2C4-D045B10EEBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHA3.Tests", "test\SHA3.Tests\SHA3.Tests.csproj", "{E4AEF193-DDE5-4FB4-A2C4-D045B10EEBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SHA3.SpeedTest", "test\SHA3.SpeedTest\SHA3.SpeedTest.csproj", "{66861656-5586-40D7-BF2C-4C2DAF14DFCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHA3.SpeedTest", "test\SHA3.SpeedTest\SHA3.SpeedTest.csproj", "{66861656-5586-40D7-BF2C-4C2DAF14DFCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{621C1337-098A-4466-9009-91C57CE4B921}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0236FC14-030E-4F18-A88F-BB5742AA58B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -63,9 +64,15 @@ Global
 		{66861656-5586-40D7-BF2C-4C2DAF14DFCD}.Release|x86.ActiveCfg = Release|x86
 		{66861656-5586-40D7-BF2C-4C2DAF14DFCD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0236FC14-030E-4F18-A88F-BB5742AA58B9} = {F78434C3-97E0-4B83-B332-3D1122CE6194}
 		{E4AEF193-DDE5-4FB4-A2C4-D045B10EEBDF} = {156033A1-DCED-4B85-9595-077940F98C70}
 		{66861656-5586-40D7-BF2C-4C2DAF14DFCD} = {156033A1-DCED-4B85-9595-077940F98C70}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D518AC99-164A-4151-8F4E-63EC9A1A00CC}
 	EndGlobalSection
 EndGlobal

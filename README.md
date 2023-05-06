@@ -3,6 +3,6 @@
 
 Port of the original Keccak hashing algorithm.
 
-Use property `UseKeccakPadding` to control which padding to use.
+v1.0 uses SHA3 padding, use property `UseKeccakPadding` to use previous padding.
 
-License is BSD3.
+License is Apache 2.0.

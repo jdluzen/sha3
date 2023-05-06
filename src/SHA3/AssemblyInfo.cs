@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyDescription("Implementation of Keccak and the Secure Hash Algorithm 3")]
 [assembly: AssemblyCopyright("(C# port) Copyright © Joe Dluzen 2012, 2017, 2023. Keccak in C originally in the public domain by Bertoni, Daemen, Peeters, and Van Assche")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
